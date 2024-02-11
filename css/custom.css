@@ -1,0 +1,74 @@
+.breadcrumb-bar .breadcrumb-title {
+    margin: 20px 0 0;
+}
+
+.breadcrumb-bar .breadcrumb-description {
+    color: #ccc;
+    font-size: 14px;
+    margin: 5px 0 0;
+}
+
+legend {
+    font-size: 1.2rem !important;
+    font-weight: 500;
+}
+
+.card-label > select {
+    background-color: #fff;
+    border: 1px solid #dbdbdb;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+    display: block;
+    height: 50px;
+    margin-top: -13px;
+    padding: 5px 15px 0;
+    transition: border-color 0.3s;
+    width: 100%;
+}
+
+.custom-select:focus {
+    border-color: #bbb;
+    box-shadow: none;
+    outline: 0 none;
+}
+
+/* Bootstrap 5 CSS and icons included */
+:root {
+    --colorPrimaryPale: #f3f5f7;
+    --colorPrimaryHalf: #09e5ab;
+    --colorPrimaryNormal: #00b3bb;
+    --colorPrimaryEighth: #dff7e5;
+}
+
+.upload_dropZone {
+    color: #0f3c4b;
+    background-color: var(--colorPrimaryPale, #c8dadf);
+    outline: 2px dashed var(--colorPrimaryHalf, #c1ddef);
+    outline-offset: -12px;
+    transition: outline-offset 0.2s ease-out, outline-color 0.3s ease-in-out,
+        background-color 0.2s ease-out;
+}
+
+.upload_dropZone.highlight {
+    outline-offset: -4px;
+    outline-color: var(--colorPrimaryNormal, #0576bd);
+    background-color: var(--colorPrimaryEighth, #c8dadf);
+}
+
+.upload_dropZone .files {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.upload_dropZone .files .item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    background-color: #c8dadf;
+}
