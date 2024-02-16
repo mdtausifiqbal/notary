@@ -2,7 +2,7 @@
     <hr>
     <h3>Buyer {$i}</h3><br>
     <div class="row">
-        {include file="widgets/radio.tpl" class="col-sm-12" direction="horizontal" label="Type of buyer" name="buyer-type{$i}"
+        {include file="widgets/radio-group.tpl" class="col-sm-12" direction="horizontal" label="Type of buyer" name="buyer-type{$i}"
         value="Person"
         items=["Person", "Company"] inputProps=["data-toggle" => "form-toggle", "data-target" =>
         "[data-group=buyer]", "data-default" => "Person"]}
@@ -64,7 +64,7 @@
     </div>
     {assign var="marital_status" value=["Available", "Married", "Windowed", "Occur", "Living in a registered civil partnership"]}
     <div class="row" data-visible="Person" data-group="buyer">
-        {include file="widgets/select.tpl" label="Marital status" name="buyer-marital_status{$i}"
+        {include file="widgets/tags.tpl" label="Marital status" name="buyer-marital_status{$i}"
         class="col-sm-12 col-md-6" items=$marital_status inputProps=["data-toggle" => "form-select", "data-target" =>
         "[data-group=marital]"]}
     </div>
@@ -75,24 +75,28 @@
     </div>
     <h4>Further information about buyer {$i}</h4>
     <div class="row">
+        {include file="widgets/yes-no.tpl" label="Politically exposed person" class="col-sm-12 col-md-4" name="buyer-politically_exposed{$i}"}
+        {include file="widgets/yes-no.tpl" label="Acting on behalf of others" class="col-sm-12 col-md-4" name="buyer-acting_others{$i}"
+        parentProps=["data-group" => "buyer", "data-visible" => "Person"]}
+        {include file="widgets/yes-no.tpl" label="Acting as an entrepreneur" class="col-sm-12 col-md-4" name="buyer-acting_entrepreneur{$i}"
+        parentProps=["data-group" => "buyer", "data-visible" => "Person"]}
+    </div>
+    <div class="row">
         {include file="widgets/yes-no.tpl" label="Interpreter required" class="col-sm-12 col-md-4" name="buyer-interpreter{$i}"
         inputProps=['data-target' => "[data-group=interpreter]", "data-toggle" => "form-toggle", "data-default" =>
         "No"]}
         {include file="widgets/yes-no.tpl" label="Pysically limited" class="col-sm-12 col-md-4" name="buyer-physically_limited{$i}"
         inputProps=['data-target' => "[data-group='physically_limited']", "data-toggle" => "form-toggle", "data-default"
         => "No"]}
-        {include file="widgets/yes-no.tpl" label="Politically exposed person" class="col-sm-12 col-md-4" name="buyer-politically_exposed{$i}"}
     </div>
     <div class="row">
-        {include file="widgets/input.tpl" label="Interpreter required for which language?" class="col-sm-12 col-md-6" name="buyer-interpreter_language{$i}"
+        {include file="widgets/input.tpl" label="Interpreter required for which language?" class="col-sm-12" name="buyer-interpreter_language{$i}"
         parentProps=["data-visible" => "Yes", "data-group" => "interpreter"]}
-        {include file="widgets/input.tpl" label="What physical limitations do you have?" class="col-sm-12 col-md-6" name="buyer-physical_limitation{$i}"
+        {include file="widgets/input.tpl" label="What physical limitations do you have?" class="col-sm-12" name="buyer-physical_limitation{$i}"
         parentProps=["data-visible" => "Yes", "data-group" => "physically_limited"]}
-        {include file="widgets/yes-no.tpl" label="Acting on behalf of others" class="col-sm-12 col-md-4" name="buyer-acting_others{$i}"
-        parentProps=["data-group" => "buyer", "data-visible" => "Person"]}
-        {include file="widgets/yes-no.tpl" label="Acting as an entrepreneur" class="col-sm-12 col-md-4" name="buyer-acting_entrepreneur{$i}"
-        parentProps=["data-group" => "buyer", "data-visible" => "Person"]}
-        {include file="widgets/textarea.tpl" label="Other comments about buyer {$i}" class="col-sm-12 col-md-4"
+    </div>
+    <div class="row">
+        {include file="widgets/textarea.tpl" label="Other comments about buyer {$i}" class="col-sm-12"
         name="buyer-comments{$i}" inputProps=['rows' => "3"]}
     </div>
 </div>

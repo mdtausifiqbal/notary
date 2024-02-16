@@ -23,14 +23,18 @@ $smarty->assign("state", "");
 // Breadcrumb Data
 $smarty->assign("breadcrumbs", array(
     array("name" => "Home", "url" => "/"),
-    array("name" => "Buying Real Estate", "url" => ""),
 ));
 
-$smarty->assign("breadcrumbTitle", "Buying Real Estate");
-$smarty->assign("breadcrumbDescription", "We would like to implement your request quickly and legally. For this we need some information from
-you. You are welcome to use our online form for this. To send your entries to us, please click on “Send
-form to notary”. You also have the option of temporarily saving your entries and completing the form at
-a later date. Forwarding to other people for further completion is also possible. We are of course happy
-to answer any questions you may have, by telephone or in a personal meeting.");
+$smarty->assign("breadcrumbTitle", "Online-Forms");
+$smarty->assign("breadcrumbDescription", "We would like to implement your request quickly and legally. For this we need some information from you. The best way to do this is to use our forms. This ensures that we receive all the necessary data. We are happy to clarify any open questions by telephone or in a meeting.");
+
+$smarty->assign("readonly", false);
+
+$forms = array(
+    array('title' => 'Buying Real Estate', "image" => "https://notar-formulare.de/wp-content/uploads/2023/09/Immo.png", "url" => "./real-estate.php"),
+    array('title' => 'Transfer', "image" => "https://notar-formulare.de/wp-content/uploads/2023/09/Schenkung.png", "url" => "./forms/transfer.php")
+);
+
+$smarty->assign("forms", $forms);
 
 $smarty->display('index.tpl');

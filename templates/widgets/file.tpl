@@ -1,14 +1,10 @@
-{assign var="class" value=($class|default:"")}
+{extends file="widgets/base-input.tpl"}
+
 {assign var="id" value=($id|default:"file_upload")}
-{assign var="label" value=($label|default:"")}
-{assign var="name" value=($name|default:"")}
 {assign var="accept" value=($accept|default:"*/*")}
 {assign var="multiple" value=($multiple|default:"")}
-{assign var="parentProps" value=($parentProps|default:[])}
-{assign var="inputProps" value=($inputProps|default:[])}
 
-<div class="form-group card-label {$class}" {foreach $parentProps as $attrib}{$attrib@key}="{$attrib}" {/foreach}>
-    <label for="" class="form-label">{$label}</label>
+{block name="input"}
     <div class="upload_dropZone text-center mb-3 p-4">
         <img srcset="https://img.icons8.com/?size=100&amp;id=4716&amp;format=png 1x, https://img.icons8.com/?size=200&amp;id=4716&amp;format=png 2x,"
             src="https://img.icons8.com/?size=200&amp;id=4716&amp;format=png" alt="Upload to Cloud" loading="lazy"
@@ -24,7 +20,7 @@
 
         <div class="files"></div>
     </div>
-</div>
+{/block}
 
 <script>
     $(document).ready(function() {
