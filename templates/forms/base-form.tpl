@@ -30,7 +30,7 @@
                     let name = $(this).data("name");
                     let isMultiple = $(this.data("multiple")) == "true";
                     console.log(typeof newValue);
-                    let value = newValue;
+                    let value = newValue.toString();
 
                     // Get the hidden input element
                     let inputEl = $("input#input-" + name + "-" + value.toLowerCase());
@@ -130,7 +130,8 @@
                 console.log("form select change", $(this), target, value);
                 $(target).filter(function() {
                     let visible = $(this).data("visible");
-                    return visible.split("|").includes(value);
+                    if (!visible) return false;
+                    return visible.toString().split("|").includes(value);
                 }).removeClass("hidden");
             }).each(function() {
                 // Hide all targets
@@ -146,7 +147,8 @@
 
             $("[data-toggle=form-repeat]").change(function() {
                 let target = $(this).data("target");
-                let value = Number($(this).val());
+                let maxItems = $(this).data("max-items");
+                let value = isNaN(Number($(this).val())) ? Number(maxItems) : Number($(this).val());
                 $(target).addClass("hidden");
                 $(target).each(function() {
                     let index = Number($(this).data("index"));

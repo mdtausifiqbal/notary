@@ -84,10 +84,10 @@
     </div>
     <div class="card-body">
         <div class="row">
-            {assign var="sellers_list" value=["1", "2", "3", "4"]}
-            {include file="widgets/tags.tpl" label="Numbers of sellers" name="numbers_of_sellers" class="col-sm-12" items=$sellers_list inputProps=["data-toggle" => "form-repeat", "data-target" => ".sellers", "data-default" => "1"]}
+            {assign var="sellers_list" value=["1", "2", "3", "4", "5+"]}
+            {include file="widgets/tags.tpl" label="Numbers of sellers" name="numbers_of_sellers" class="col-sm-12" items=$sellers_list inputProps=["data-toggle" => "form-repeat", "data-target" => ".sellers", "data-default" => "1", "data-max-items"=> "4"]}
         </div>
-        {for $i=1 to count($sellers_list)}
+        {for $i=1 to (count($sellers_list)-1)}
         {include file="forms/realestate/sellers.tpl" i=$i}
         {/for}
     </div>
@@ -101,10 +101,10 @@
         </div>
         <div class="card-body">
             <div class="row">
-                {assign var="buyers_list" value=["1", "2", "3", "4"]}
-                {include file="widgets/tags.tpl" label="Numbers of buyers" name="numbers_of_buyers" class="col-sm-12" items=$buyers_list inputProps=["data-toggle" => "form-repeat", "data-target" => ".buyers", "data-default" => "1"]}
+                {assign var="buyers_list" value=["1", "2", "3", "4", "5+"]}
+                {include file="widgets/tags.tpl" label="Numbers of buyers" name="numbers_of_buyers" class="col-sm-12" items=$buyers_list inputProps=["data-toggle" => "form-repeat", "data-target" => ".buyers", "data-default" => "1", "data-max-items"=> "4"]}
             </div>
-            {for $i=1 to count($buyers_list)}
+            {for $i=1 to (count($buyers_list)-1)}
                 {include file="forms/realestate/buyers.tpl" i=$i}
             {/for}
         </div>

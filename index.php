@@ -31,8 +31,8 @@ $smarty->assign("breadcrumbDescription", "We would like to implement your reques
 $smarty->assign("readonly", false);
 
 $forms = array(
-    array('title' => 'Buying Real Estate', "image" => "https://notar-formulare.de/wp-content/uploads/2023/09/Immo.png", "url" => "./real-estate.php"),
-    array('title' => 'Transfer', "image" => "https://notar-formulare.de/wp-content/uploads/2023/09/Schenkung.png", "url" => "./forms/transfer.php")
+    array('title' => 'Buying Real Estate', "image" => "https://notar-formulare.de/wp-content/uploads/2023/09/Immo.png", "url" => "./form-real-estate.php"),
+    array('title' => 'Transfer', "image" => "https://notar-formulare.de/wp-content/uploads/2023/09/Schenkung.png", "url" => "./form-online-transfer.php")
 );
 
 $smarty->assign("forms", $forms);
