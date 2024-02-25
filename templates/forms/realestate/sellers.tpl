@@ -1,10 +1,10 @@
-<div data-index="{$i}" class="sellers hidden">
+<div data-index="{$i}" class="hidden" data-group="sellers">
     <hr>
     <h3>Seller {$i}</h3><br>
     <div class="row">
-        {include file="widgets/radio-group.tpl" class="col-sm-12" direction="horizontal" label="Type of seller" name="seller-type{$i}"
+        {include file="widgets/tags.tpl" class="col-sm-12" direction="horizontal" label="Type of seller" name="seller-type{$i}"
         value="Person"
-        items=["Person", "Company"] inputProps=["data-toggle" => "form-toggle", "data-target" =>
+        items=["Person", "Company"] inputProps=["data-toggle" => "form-select", "data-target" =>
         "[data-group=seller]", "data-default" => "Person"]}
     </div>
     <div class="row" data-visible="Company" data-group="seller">
@@ -84,10 +84,10 @@
     </div>
     <div class="row">
         {include file="widgets/yes-no.tpl" label="Interpreter required" class="col-sm-12 col-md-4" name="seller-interpreter{$i}"
-        inputProps=['data-target' => "[data-group=interpreter]", "data-toggle" => "form-toggle", "data-default" =>
+        inputProps=['data-target' => "[data-group=interpreter]", "data-toggle" => "form-select", "data-default" =>
         "No"]}
         {include file="widgets/yes-no.tpl" label="Pysically limited" class="col-sm-12 col-md-4" name="seller-physically_limited{$i}"
-        inputProps=['data-target' => "[data-group='physically_limited']", "data-toggle" => "form-toggle", "data-default"
+        inputProps=['data-target' => "[data-group='physically_limited']", "data-toggle" => "form-select", "data-default"
         => "No"]}
 
     </div>

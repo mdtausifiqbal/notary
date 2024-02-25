@@ -12,7 +12,7 @@
         {for $i=0 to count($values)-1}
             {assign var="itemLabel" value=$items[$i]}
             {assign var="itemValue" value=$values[$i]}
-            <input type="hidden" {if $multiple == "true"}name="[{$name}]" {else}name="{$name}" {/if}
+            <input type="hidden" {if $multiple == "true"}name="{$name}[]" {else}name="{$name}" {/if}
                 id="input-{$name}-{$itemValue|lower}" value="{$itemValue}" disabled />
             <li role="button" class="tag tag-selector" data-value="{$itemValue}">
                 {$itemLabel}

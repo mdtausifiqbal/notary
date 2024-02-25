@@ -25,50 +25,42 @@
         $.fn.val = function(newValue) {
             // Handling setter and getter of the custom element i.e ".tags"
             if ($(this).hasClass('tags')) {
-                // Custom behavior for elements with the class 'tags'
+                let radio = false; // Should behave like a radio when multiple is false
+                let isMultiple = $(this).data("multiple");
+                let name = $(this).data("name");
+                let prevValue = $(this).data("value");
+                prevValue = prevValue ? prevValue : [];
+
                 if (typeof newValue !== 'undefined') {
-                    let name = $(this).data("name");
-                    let isMultiple = $(this.data("multiple")) == "true";
-                    console.log(typeof newValue);
-                    let value = newValue.toString();
 
-                    // Get the hidden input element
-                    let inputEl = $("input#input-" + name + "-" + value.toLowerCase());
+                    let prevValues = $(this).val();
 
-                    // Get the button with the given value
-                    let buttonEl = $(this).find("[data-value='" + value + "']");
+                    let values = [];
 
-                    if (buttonEl.length === 0) {
-                        console.error("Invalid value: " + value);
-                        return $(this);
+                    if (Array.isArray(newValue)) {
+                        values = isMultiple ? [...new Set(newValue)] : [newValue[0]];
+                    } else {
+                        let value = newValue.toString();
+                        if (prevValues.includes(value)) {
+                            values = radio && !isMultiple ? prevValues : prevValues.filter(v => v !== value);
+                        } else {
+                            values = isMultiple ? [...new Set([...prevValues, value])] : [value];
+                        }
                     }
+
+
+                    let inputs = values.map(value => $("input#input-" + name + "-" + value.toLowerCase()));
+                    let buttons = values.map(value => $(this).find("[data-value='" + value + "']"));
 
                     // set the value
-                    $(this).data("value", value);
+                    $(this).data("value", values);
 
-                    // add or remove the selected class
-                    if (isMultiple) {
-                        if (buttonEl.hasClass("selected")) {
-                            // User want to remove the current selection
-                            $(this).removeClass("selected");
-                            // Disable the hidden input element
-                            inputEl.prop("disabled", true);
-                        } else {
-                            // User want to add to the current selection
-                            $(this).addClass("selected");
-                            // Enable the hidden input element
-                            inputEl.prop("disabled", false);
-                        }
-                    } else {
-                        // Remove the selected class from all buttons
-                        $(this).find(".tag-selector").removeClass("selected");
-                        // Now add the selected class to the targeted button
-                        $(buttonEl).addClass("selected");
-                        // Disable all hidden input elements
-                        $(this).find("input[type=hidden]").prop("disabled", true);
-                        // Enable the only targeted hidden input element
-                        inputEl.prop("disabled", false);
-                    }
+                    // Enable or disable the hidden input elements
+                    $(this).find("input[type=hidden]").prop("disabled", true);
+                    inputs.forEach(input => input.prop("disabled", false));
+
+                    $(this).find(".tag-selector").removeClass("selected");
+                    buttons.forEach(button => button.addClass("selected"));
 
                     // Trigger change event
                     let event = jQuery.Event("change");
@@ -77,7 +69,8 @@
                     return $(this);
                 } else {
                     // Getter (Important! currently only supports getting a single value)
-                    return $(this).data('value');
+                    // if (isMultiple) return JSON.parse($(this).data('value') ? $(this).data('value') : "[]");
+                    return Array.isArray(prevValue) ? prevValue : [prevValue];
                 }
             } else {
                 return originalValue.apply(this, arguments);
@@ -126,11 +119,14 @@
             $("[data-toggle=form-select]").change(function() {
                 let target = $(this).data("target");
                 let value = $(this).val();
+                let isMultiple = $(this).data("multiple");
                 $(target).addClass("hidden");
-                console.log("form select change", $(this), target, value);
+
                 $(target).filter(function() {
                     let visible = $(this).data("visible");
                     if (!visible) return false;
+                    if (Array.isArray(value)) return visible.toString().split("|").some(v => value
+                        .includes(v));
                     return visible.toString().split("|").includes(value);
                 }).removeClass("hidden");
             }).each(function() {
@@ -151,10 +147,18 @@
                 let value = isNaN(Number($(this).val())) ? Number(maxItems) : Number($(this).val());
                 $(target).addClass("hidden");
                 $(target).each(function() {
-                    let index = Number($(this).data("index"));
-                    if (index <= value) {
-                        $(this).removeClass("hidden");
+                    if ($(this).data("index")) {
+                        index = Number($(this).data("index"));
+                        if (index <= value) {
+                            $(this).removeClass("hidden");
+                        }
+                    } else if ($(this).data("visible")) {
+                        let visible = $(this).data("visible");
+                        if (visible.toString().split("|").includes(value.toString())) {
+                            $(this).removeClass("hidden");
+                        }
                     }
+
                 })
             }).each(function() {
                 $($(this).data("target")).addClass("hidden");

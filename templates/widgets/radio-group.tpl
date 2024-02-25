@@ -9,6 +9,6 @@
     {for $i=0 to (count($items)-1)}
         {assign var="item" value=$items[$i]}
         {assign var="val" value=$values[$i]}
-        {include file="widgets/radio.tpl" value=$val checked=(($value == $val) ? "true" : "false")}
+        {include file="widgets/radio.tpl" label=$item value=$val checked=(($value == $val) ? "true" : "false")}
     {/for}
 {/block}

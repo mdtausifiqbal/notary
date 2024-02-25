@@ -7,9 +7,9 @@ class Template extends Smarty
     function __construct()
     {
         parent::__construct();
-        $this->setTemplateDir(__DIR__ . './templates/');
-        $this->setCacheDir(__DIR__ . "./cache/");
-        $this->setCompileDir(__DIR__ . "./templates_c/");
-        $this->setConfigDir(__DIR__ . "./configs/");
+        $this->setTemplateDir('templates/');
+        $this->setCacheDir("cache/");
+        $this->setCompileDir("templates_c/");
+        $this->setConfigDir("configs/");
     }
 }

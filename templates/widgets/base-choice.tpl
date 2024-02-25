@@ -9,6 +9,6 @@
     <div class="form-check{if $direction == 'horizontal'} form-check-inline{/if}">
         <input type="{$inputType}" class="form-check-input" id="input-{$name}-{$value|lower}" name="{$name}"
             value="{$value}" {if $checked == "true"}checked{/if} {include file="widgets/attrs.tpl" attribs=$inputProps}>
-        <label class="form-check-label" for="input-{$name}-{$value|lower}">{$value}</label>
+        <label class="form-check-label" for="input-{$name}-{$value|lower}">{$label}</label>
     </div>
 {/block}
