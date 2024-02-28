@@ -18,7 +18,7 @@
         class="col-12"}
     </div>
     <div class="row">
-        {include file="widgets/input.tpl" label="Postal Code" name="buyer-address-postalcode{$i}"
+        {include file="widgets/input.tpl" label="Zip Code" name="buyer-address-zipcode{$i}"
         class="col-12 col-sm-6"}
 
         {include file="widgets/input.tpl" label="Location" name="buyer-address-location{$i}"

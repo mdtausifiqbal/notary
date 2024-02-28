@@ -22,7 +22,7 @@
         class="col-sm-12"}
     </div>
     <div class="row" data-visible="Company" data-group="buyer">
-        {include file="widgets/input.tpl" label="Postal Code" name="buyer-company-address-postalcode{$i}"
+        {include file="widgets/input.tpl" label="Zip Code" name="buyer-company-address-zipcode{$i}"
         class="col-sm-12 col-md-6"}
         {include file="widgets/input.tpl" label="Location" name="buyer-company-address-location{$i}"
         class="col-sm-12 col-md-6"}
@@ -45,7 +45,7 @@
         class="col-sm-12"}
     </div>
     <div class="row" data-visible="Person" data-group="buyer">
-        {include file="widgets/input.tpl" label="Postal Code" name="buyer-address-postalcode{$i}"
+        {include file="widgets/input.tpl" label="Zip Code" name="buyer-address-zipcode{$i}"
         class="col-sm-12 col-md-6"}
         {include file="widgets/input.tpl" label="Location" name="buyer-address-location{$i}"
         class="col-sm-12 col-md-6"}

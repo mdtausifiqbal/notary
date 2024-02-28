@@ -19,12 +19,12 @@ $smarty->assign("state", "");
 // Breadcrumb Data
 $smarty->assign("breadcrumbs", array(
     array("name" => "Home", "url" => "/"),
-    array("name" => "Online Transfer", "url" => ""),
+    array("name" => "Online Company Formation", "url" => ""),
 ));
 
-$smarty->assign("breadcrumbTitle", "Online Transfer");
+$smarty->assign("breadcrumbTitle", "Online Company Formation");
 $smarty->assign("breadcrumbDescription", "We would like to implement your request quickly and legally. For this we need some information from you. You are welcome to use our online form for this. To send your entries to us, please click on “Submit form to notary”. You also have the option of temporarily saving your entries and completing the form at a later date. Forwarding to other people for further completion is also possible. We are of course happy to answer any questions you may have, by telephone or in a personal meeting.");
 
 $smarty->assign("readonly", false);
 
-$smarty->display('forms/content-form-donation.tpl');
+$smarty->display('forms/content-form-incorporation.tpl');

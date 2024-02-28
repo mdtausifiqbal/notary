@@ -176,7 +176,7 @@
 				</div>
 				<div class="col-md-6 col-sm-12">
 					<div class="form-group card-label">
-						<label>{t}Postal Code{/t}</label>
+						<label>{t}Zip Code{/t}</label>
 						<input type="text" class="form-control" id="input-zip" name="zip" {if $zip}value="{$zip}" {/if}>
 					</div>
 				</div>

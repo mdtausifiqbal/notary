@@ -15,7 +15,7 @@
                     {include file="widgets/input.tpl" label="Street and house number" name="address-street" class="col-sm-12"}
                 </div>
                 <div class="row">
-                    {include file="widgets/input.tpl" label="Postal Code" name="address-postalcode" class="col-sm-12 col-md-6"}
+                    {include file="widgets/input.tpl" label="Zip Code" name="address-zipcode" class="col-sm-12 col-md-6"}
                     {include file="widgets/input.tpl" label="Location" name="address-location" class="col-sm-12 col-md-6"}
                 </div>
             </fieldset>
@@ -85,9 +85,10 @@
     <div class="card-body">
         <div class="row">
             {assign var="sellers_list" value=["1", "2", "3", "4", "5+"]}
+            {assign var="sellers" value=(array_slice($sellers_list, 0, 4))}
             {include file="widgets/tags.tpl" label="Numbers of sellers" name="numbers_of_sellers" class="col-sm-12" items=$sellers_list inputProps=["data-toggle" => "form-repeat", "data-target" => "[data-group=sellers]", "data-default" => "1", "data-max-items"=> "4"]}
         </div>
-        {for $i=1 to (count($sellers_list)-1)}
+        {for $i=1 to count($sellers)}
         {include file="forms/realestate/sellers.tpl" i=$i}
         {/for}
     </div>
@@ -102,9 +103,10 @@
         <div class="card-body">
             <div class="row">
                 {assign var="buyers_list" value=["1", "2", "3", "4", "5+"]}
+                {assign var="buyers" value=(array_slice($buyers_list, 0, 4))}
                 {include file="widgets/tags.tpl" label="Numbers of buyers" name="numbers_of_buyers" class="col-sm-12" items=$buyers_list inputProps=["data-toggle" => "form-repeat", "data-target" => "[data-group=buyers]", "data-default" => "1", "data-max-items"=> "4"]}
             </div>
-            {for $i=1 to (count($buyers_list)-1)}
+            {for $i=1 to count($buyers)}
                 {include file="forms/realestate/buyers.tpl" i=$i}
             {/for}
         </div>
@@ -150,7 +152,7 @@
                     {include file="widgets/input.tpl" label="Street and house number" name="broker-address-street" class="col-sm-12"}
                 </div>
                 <div class="row">
-                    {include file="widgets/input.tpl" label="Postal Code" name="broker-address-postalcode" class="col-sm-12 col-md-6"}
+                    {include file="widgets/input.tpl" label="Zip Code" name="broker-address-zipcode" class="col-sm-12 col-md-6"}
                     {include file="widgets/input.tpl" label="Location" name="broker-address-location" class="col-sm-12 col-md-6"}
                 </div>
             </fieldset>
@@ -160,98 +162,19 @@
     <!-- /Purchase Contract Information -->
 
     <!-- Files -->
-    <div class="card contact-card">
-        <div class="card-header">
-            <h4 class="card-title">V. Files</h4>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                {include file="widgets/file.tpl" label="Upload document(s) (optional)" name="documents" class="col-sm-12" inputProps=['multiple' => true]}
-            </div>
-        </div>
-    </div>
+    {include file="forms/common/card-files.tpl" cardIndex="V"}
     <!-- /Files -->
 
     <!-- Additional Information -->
-    <div class="card contact-card">
-        <div class="card-header">
-            <h4 class="card-title">VI. Additional information</h4>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                {include file="widgets/input.tpl" label="Name of the person fillig out the form" name="filling_person" class="col-sm-12"}
-            </div>
-            <div class="row">
-                {include file="widgets/textarea.tpl" label="Additional information" name="additional_information" class="col-sm-12" inputProps=['rows' => "3"]}
-            </div>
-        </div>
-    </div>
+    {include file="forms/common/card-comments.tpl" cardIndex="VI"}
     <!-- /Additional Information -->
 
-    <!-- Contact Details -->
-    <div class="card contact-card">
-        <div class="card-header">
-            <h4 class="card-title">VII. Contact Details</h4>
-        </div>
-        <div class="card-body">
-            {include file="widgets/tags.tpl" label="Contact <small class='text-danger'><em>*</em></small>" items=["Email", "Telephone", "Post"] name="contact" class="col-sm-12" inputProps=["data-target" => "[data-group=applicant_contact]", "data-toggle" => "form-select"] multiple="true"}
-            <div class="row">
-                {include file="widgets/input.tpl" label="Email from the person filling out the form" name="filling_person_email" class="col-12 col-sm-6 hidden" parentProps=["data-visible" => "Email", "data-group" => "applicant_contact"]}
-                {include file="widgets/input.tpl" label="Phone from the person filling out the form" name="filling_person_phone" class="col-12 col-sm-6 hidden" parentProps=["data-visible" => "Telephone", "data-group" => "applicant_contact"]}
-            </div>
-            <fieldset data-group="applicant_contact" data-visible="Post">
-                <legend>Postal address of the person completing the form</legend>
-                <div class="row">
-                    {include file="widgets/input.tpl" label="Street and house number" name="applicant-address-street" class="col-sm-12"}
-                </div>
-                <div class="row">
-                    {include file="widgets/input.tpl" label="Postal Code" name="applicant-address-postalcode" class="col-sm-12 col-md-6"}
-                    {include file="widgets/input.tpl" label="Location" name="applicant-address-location" class="col-sm-12 col-md-6"}
-                </div>
-            </fieldset>
-        </div>
-    </div>
-    <!-- /Contact Details -->
+    <!-- Client Details -->
+    {include file="forms/common/card-client.tpl" cardIndex="VII"}
+    <!-- /Client Details -->
 
-    <!-- Confirm and Send -->
-    <div class="card">
-        <div class="card-header">
-            <h4 class="card-title">{t}VIII. Commissioning{/t}</h4>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                {assign var="commission_label_list" value=["I instruct the notary to prepare the certification of the property purchase. I am aware that costs arise from creating the draft, even if it is not notarized.", "A draft is not yet to be created. The above information only serves to provide advance information and preparation for a meeting."]}
-                {assign var="commission_value_list" value=["with-draft", "without-draft"]}
-                {include file="widgets/radio-group.tpl" label="Commissioning" items=$commission_label_list values=$commission_value_list name="commission" class="col-sm-12" value="without-draft" inputProps=["data-default" => "without-draft", "data-toggle" => "form-toggle", "data-target" => "[data-group=draft]"]}
-            </div>
-            <div class="row" data-group="draft" data-visible="with-draft">
-                {include file="forms/common/drafts.tpl" sellers_list=array_slice($sellers_list, 0, 4) buyers_list=array_slice($buyers_list, 0, 4)}
-            </div>
-            <div class="row" data-group="draft" data-visible="without-draft">
-                {assign var="meeting_label_list" value=["I have already arranged meeting date.", "Please contact me to arrange a meeting"]}
-                {assign var="meeting_value_list" value=["meeting_arranged", "meeting_by_contact"]}
-                {include file="widgets/radio-group.tpl" label="Meeting" items=$meeting_label_list values=$meeting_value_list name="meeting" class="col-sm-12" value="meeting_arranged"}
-            </div>
-            <!-- Terms Accept -->
-            <div class="terms-accept">
-                <div class="custom-checkbox">
-                    <input type="checkbox" id="checkbox-terms-accepted" name="terms-accepted" value="yes" required>
-                    <label for="checkbox-terms-accepted"> {t}I have read and I accept the Terms & Conditions{/t}
-                    </label>
-                    <div class="invalid-feedback">
-                        {t}You must agree before submitting.{/t}
-                    </div>
-                </div>
-            </div>
-            <!-- /Terms Accept -->
-            <!-- Submit Section -->
-            <div class="submit-section mt-4">
-                <button type="button" class="btn btn-outline-primary submit-btn">Save draft</button>
-                <button type="submit" class="btn btn-primary submit-btn">{t}Submit{/t}</button>
-            </div>
-            <!-- /Submit Section -->
-        </div>
-
-    </div>
-    <!-- /Confirm and Send -->
+    <!-- Commissioning -->
+    {assign var="drafts" value=[array("name" => "seller", "list" => $sellers), array("name" => "buyer", "list" => $buyers)]}
+    {include file="forms/common/card-commissioning.tpl" cardIndex="VIII" formType="property purchase" drafts=$drafts}
+    <!-- /Commissioning -->
 {/block}

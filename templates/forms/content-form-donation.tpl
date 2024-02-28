@@ -9,11 +9,11 @@
         <div class="card-body">
             <div class="row">
                 {assign var="sellers_list" value=["1", "2"]}
-                {include file="widgets/tags.tpl" label="Numbers of sellers" name="numbers_of_sellers" class="col-12 col-sm-6" items=$sellers_list inputProps=["data-toggle" => "form-repeat", "data-target" => "[data-group=sellers]", "data-default" => "1", "data-max-list" => "2"]}
+                {include file="widgets/tags.tpl" label="Numbers of sellers" name="numbers_of_sellers" class="col-12 col-sm-6" items=$sellers_list inputProps=["data-toggle" => "form-repeat", "data-target" => "[data-group=sellers]", "data-default" => "1", "data-max-items" => "2"]}
                 {include file="widgets/input.tpl" label="Relationship between the selling persons" name="relationship_between_selling_persons" class="col-12 col-sm-6" inputProps=["placeholder" => "e.g. spouse"] parentProps=["data-index" => "2", "data-group" => "sellers"]}
             </div>
             {for $i=1 to count($sellers_list)}
-                {include file="forms/online-transfer/sellers.tpl" i=$i}
+                {include file="forms/donation/sellers.tpl" i=$i}
             {/for}
         </div>
     </div>
@@ -27,11 +27,11 @@
         <div class="card-body">
             <div class="row">
                 {assign var="buyers_list" value=["1", "2", "3", "4"]}
-                {include file="widgets/tags.tpl" label="Numbers of buyers" name="numbers_of_buyers" class="col-sm-12" items=$buyers_list inputProps=["data-toggle" => "form-repeat", "data-target" => "[data-group=buyers]", "data-default" => "1", "data-max-list" => "2"]}
+                {include file="widgets/tags.tpl" label="Numbers of buyers" name="numbers_of_buyers" class="col-sm-12" items=$buyers_list inputProps=["data-toggle" => "form-repeat", "data-target" => "[data-group=buyers]", "data-default" => "1", "data-max-items" => "2"]}
             </div>
 
             {for $i=1 to count($buyers_list)}
-                {include file="forms/online-transfer/buyers.tpl" i=$i sellers_list=$sellers_list}
+                {include file="forms/donation/buyers.tpl" i=$i sellers_list=$sellers_list}
             {/for}
 
             <div class="row hidden" data-group="buyers" data-index="2">
@@ -74,7 +74,7 @@
             <!-- Information on property -->
             <div data-group="object" data-visible="property">
                 {for $i=1 to count($number_of_properties)}
-                    {include file="forms/online-transfer/property.tpl" i=$i}
+                    {include file="forms/donation/property.tpl" i=$i}
                 {/for}
             </div>
 
@@ -227,89 +227,16 @@
     <!-- /Files -->
 
     <!-- Comments -->
-    <div class="card contact-card">
-        <div class="card-header">
-            <h4 class="card-title">VII. Other Information</h4>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                {include file="widgets/input.tpl" label="Name of the person filling out the form" name="applicant_name" class="col-sm-12"}
-                {include file="widgets/textarea.tpl" label="Comments/Other Information" name="comments" class="col-sm-12"}
-            </div>
-        </div>
-    </div>
+    {include file="forms/common/card-comments.tpl" cardIndex="VII"}
     <!-- /Comments -->
 
-    <!-- Contact Details -->
-    <div class="card contact-card">
-        <div class="card-header">
-            <h4 class="card-title">VIII. Contact Details</h4>
-        </div>
-        <div class="card-body">
+    <!-- Client Details -->
+    {include file="forms/common/card-client.tpl" cardIndex="VIII"}
+    <!-- /Client Details -->
 
-            {include file="widgets/tags.tpl" label="Contact <small class='text-danger'><em>*</em></small>" items=["Email", "Telephone", "Post"] name="contact" class="col-sm-12" inputProps=["data-target" => "[data-group=applicant_contact]", "data-toggle" => "form-select"] multiple="true"}
-            <div class="row">
-                {include file="widgets/input.tpl" label="Email from the person filling out the form" name="filling_person_email" class="col-12 col-sm-6 hidden" parentProps=["data-visible" => "Email", "data-group" => "applicant_contact"]}
-                {include file="widgets/input.tpl" label="Phone from the person filling out the form" name="filling_person_phone" class="col-12 col-sm-6 hidden" parentProps=["data-visible" => "Telephone", "data-group" => "applicant_contact"]}
-            </div>
-            <fieldset data-group="applicant_contact" data-visible="Post">
-                <legend>Postal address of the person completing the form</legend>
-                <div class="row">
-                    {include file="widgets/input.tpl" label="Street and house number" name="applicant-address-street" class="col-sm-12"}
-                </div>
-                <div class="row">
-                    {include file="widgets/input.tpl" label="Postal Code" name="applicant-address-postalcode" class="col-sm-12 col-md-6"}
-                    {include file="widgets/input.tpl" label="Location" name="applicant-address-location" class="col-sm-12 col-md-6"}
-                </div>
-            </fieldset>
-        </div>
-    </div>
-    <!-- /Contact Details -->
+    <!-- Commissioning -->
+    {assign var="drafts" value=[array("name" => "seller", "list" => $sellers_list), array("name" => "buyer", "list" => $buyers_list)]}
+    {include file="forms/common/card-commissioning.tpl" cardIndex="IX" formType="donation" drafts=$drafts}
+    <!-- /Commissioning -->
 
-    <!-- Confirm and Send -->
-    <div class="card">
-        <div class="card-header">
-            <h4 class="card-title">{t}IX. Commissioning{/t}</h4>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                {assign var="commission_label_list" value=["I instruct the notary to prepare the certification of the property purchase. I am aware that costs arise from creating the draft, even if it is not notarized.", "A draft is not yet to be created. The above information only serves to provide advance information and preparation for a meeting."]}
-                {assign var="commission_value_list" value=["with-draft", "without-draft"]}
-                {include file="widgets/radio-group.tpl" label="Commissioning" items=$commission_label_list values=$commission_value_list name="commission" class="col-sm-12" value="without-draft" inputProps=["data-default" => "without-draft", "data-toggle" => "form-toggle", "data-target" => "[data-group=draft]"]}
-            </div>
-            <div class="row" data-group="draft" data-visible="with-draft">
-                {include file="forms/common/drafts.tpl" sellers_list=$sellers_list buyers_list=$buyers_list}
-            </div>
-            <div class="row" data-group="draft" data-visible="without-draft">
-                {assign var="meeting_label_list" value=["I have already arranged meeting date.", "Please contact me to arrange a meeting"]}
-                {assign var="meeting_value_list" value=["meeting_arranged", "meeting_by_contact"]}
-                {include file="widgets/radio-group.tpl" label="Meeting" items=$meeting_label_list values=$meeting_value_list name="meeting" class="col-sm-12" value="meeting_arranged"}
-            </div>
-            <!-- Terms Accept -->
-            <div class="terms-accept">
-                <div class="custom-checkbox">
-                    <input type="checkbox" id="checkbox-terms-accepted" name="terms-accepted" value="yes" required>
-                    <label for="checkbox-terms-accepted"> {t}I have read and I accept the Terms & Conditions{/t}
-                    </label>
-                    <div class="invalid-feedback">
-                        {t}You must agree before submitting.{/t}
-                    </div>
-                </div>
-            </div>
-            <!-- /Terms Accept -->
-            <!-- Submit Section -->
-            <div class="submit-section mt-4">
-                <button type="button" class="btn btn-outline-primary submit-btn">Save draft</button>
-                <button type="submit" class="btn btn-primary submit-btn">{t}Submit{/t}</button>
-            </div>
-            <!-- /Submit Section -->
-        </div>
-
-    </div>
-    <!-- /Confirm and Send -->
-
-{/block}
-
-{block "scripts"}
-    {$smarty.block.parent}
 {/block}

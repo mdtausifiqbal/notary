@@ -162,7 +162,15 @@
                 })
             }).each(function() {
                 $($(this).data("target")).addClass("hidden");
-            }).val("1").change();
+
+                let defaultValue = $(this).data("default");
+
+                if (typeof defaultValue !== "undefined") {
+                    $(this).val(defaultValue).change();
+                } else {
+                    $(this).val("1").change();
+                }
+            })
 
             $(".tag-selector").click(function() {
                 let value = $(this).data("value");
