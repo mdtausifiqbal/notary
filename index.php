@@ -22,7 +22,7 @@ $smarty->assign("state", "");
 
 // Breadcrumb Data
 $smarty->assign("breadcrumbs", array(
-    array("name" => "Home", "url" => "/"),
+    array("name" => "Home", "url" => "./"),
 ));
 
 $smarty->assign("breadcrumbTitle", "Online-Forms");
@@ -33,7 +33,8 @@ $smarty->assign("readonly", false);
 $forms = array(
     array('title' => 'Buying Real Estate', "image" => "images/realestate.png", "url" => "./form-real-estate.php"),
     array('title' => 'Transfer', "image" => "images/donation.png", "url" => "./form-online-transfer.php"),
-    array('title' => 'Starting a business', "image" => "images/business.png", "url" => "./form-starting-business.php")
+    array('title' => 'Starting a business', "image" => "images/business.png", "url" => "./form-starting-business.php"),
+    array("title" => "Share purchase", "image" => "images/shares.png", "url" => "./form-share-purchase.php"),
 );
 
 $smarty->assign("forms", $forms);

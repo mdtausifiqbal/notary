@@ -4,8 +4,6 @@ require "./template.php";
 
 $smarty = new Template();
 
-$smarty->assign('title', 'PHP + Smarty');
-$smarty->assign('message', 'Learning a bit about Smarty');
 $smarty->assign('formaction', '/Notary');
 $smarty->assign("inquirytype", "inquiry-contractor");
 $smarty->assign("contractor_surl", "DE-XX-TERMOLINO");
@@ -18,7 +16,7 @@ $smarty->assign("state", "");
 
 // Breadcrumb Data
 $smarty->assign("breadcrumbs", array(
-    array("name" => "Home", "url" => "/"),
+    array("name" => "Home", "url" => "./"),
     array("name" => "Buying Real Estate", "url" => ""),
 ));
 
