@@ -35,6 +35,7 @@ $forms = array(
     array('title' => 'Transfer', "image" => "images/donation.png", "url" => "./form-online-transfer.php"),
     array('title' => 'Starting a business', "image" => "images/business.png", "url" => "./form-starting-business.php"),
     array("title" => "Share purchase", "image" => "images/shares.png", "url" => "./form-share-purchase.php"),
+    array("title" => "Inheritance certificate application", "image" => "images/inheritance.png", "url" => "./form-inheritance-certificate.php"),
 );
 
 $smarty->assign("forms", $forms);

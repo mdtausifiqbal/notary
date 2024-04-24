@@ -1,8 +1,10 @@
 {extends file="widgets/base-input.tpl"}
 
 {assign var="id" value=($id|default:"file_upload")}
-{assign var="accept" value=($accept|default:"*/*")}
-{assign var="multiple" value=($multiple|default:"")}
+{assign var="accept" value=($accept|default:"application/pdf,image/png,image/jpeg")}
+{assign var="multiple" value=($multiple|default:"true")}
+{assign var="fileSizeLimitMB" value=($fileSizeLimit|default:"5")}
+{assign var="maxFiles" value=($maxFiles|default:"10")}
 
 {block name="input"}
     <div class="upload_dropZone text-center mb-3 p-4">
@@ -12,75 +14,16 @@
 
         <p class="my-2">Drag files here to upload<br><i>or</i></p>
 
-        <input id="{$id}" class="position-absolute invisible" name="{$name}" type="file"
-            {if $multiple == "true"}multiple{/if} accept="{$accept}"
-            {foreach $inputProps as $attrib}{$attrib@key}="{$attrib}" {/foreach} />
+        <input id="{$id}" class="position-absolute invisible file-input" name="{$name}" type="file"
+            data-max-files="{$maxFiles}" data-file-size-limit="{$fileSizeLimitMB}" {if $multiple == "true"}multiple{/if}
+            accept="{$accept}" {foreach $inputProps as $attrib}{$attrib@key}="{$attrib}" {/foreach} />
 
         <label class="btn btn-primary mb-3" for="{$id}">Choose file(s)</label>
 
-        <div class="files"></div>
+        <p>Accepted file types: PDF, JPG, PNG, max. file size: {$fileSizeLimitMB} MB, max. files: {$maxFiles}.
+        </p>
+
+        <div class="files uploaded"></div>
+        <div class="files uploading" style="margin-top: 1rem;"></div>
     </div>
 {/block}
-
-<script>
-    $(document).ready(function() {
-        let fileInput = $('#{$id}');
-        let uploadDropZone = $('.upload_dropZone');
-
-        let gallery = fileInput.siblings('.files');
-
-        uploadDropZone.on('dragenter', function(e) {
-            $(this).addClass('highlight');
-        });
-
-        uploadDropZone.on('dragleave', function(e) {
-            $(this).removeClass('highlight');
-        });
-
-        uploadDropZone.on('dragover', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-        });
-
-        uploadDropZone.on("drop", function(e) {
-            e.preventDefault();
-            $(this).removeClass('highlight');
-            if (e.originalEvent.dataTransfer) {
-                if (e.originalEvent.dataTransfer.files.length) {
-                    fileInput.prop('files', e.originalEvent.dataTransfer.files);
-                    fileInput.trigger('change');
-                }
-            }
-
-        })
-
-        fileInput.on('change', function() {
-            var files = this.files;
-            var fileCount = files.length;
-
-            gallery.empty();
-
-            console.log(files);
-
-            for (var i = 0; i < fileCount; i++) {
-                let file = files[i];
-                let filename = file.name;
-                let filesize = file.size; // convert this into kb or mb
-                let filetype = file.type;
-
-                let fileSizeInKb = (filesize / 1024).toFixed(2);
-                let fileSizeInMb = (filesize / 1024 / 1024).toFixed(2);
-                let fileSizeInfo = fileSizeInMb < 1 ? fileSizeInKb + " KB" : fileSizeInMb + " MB";
-                let fileNameEl = $('<span class="mb-0">' + filename + '</span>');
-                let fileSizeEl = $('<span class="mb-0">' + fileSizeInfo + '</span>');
-
-                let fileEl = $(
-                    '<div class="d-flex justify-content-between align-items-center item"></div>'
-                );
-                fileEl.append(fileNameEl);
-                fileEl.append(fileSizeEl);
-                gallery.append(fileEl);
-            }
-        });
-    });
-</script>

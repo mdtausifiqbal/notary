@@ -39,8 +39,8 @@ legend {
 /* Bootstrap 5 CSS and icons included */
 :root {
     --colorPrimaryPale: #f3f5f7;
-    --colorPrimaryHalf: #09e5ab;
-    --colorPrimaryNormal: #00b3bb;
+    --colorPrimaryHalf: #15558d;
+    --colorPrimaryNormal: #0b4c8e;
     --colorPrimaryEighth: #dff7e5;
 }
 
@@ -69,10 +69,63 @@ legend {
 
 .upload_dropZone .files .item {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     width: 100%;
     padding: 0.5rem 1rem;
     border-radius: 5px;
     background-color: #c8dadf;
+    position: relative;
+    overflow: hidden;
+}
+
+.upload_dropZone .files .item > .file {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.upload_dropZone .files .item > .file .file-info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 0.2rem;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.upload_dropZone .btn {
+    background-color: var(--colorPrimaryHalf) !important;
+    border-color: var(--colorPrimaryNormal);
+}
+
+.upload_dropZone .text-link {
+    color: var(--colorPrimaryHalf) !important;
+}
+
+.upload_dropZone .btn-remove {
+    border: none;
+    background-color: transparent;
+    font-size: 2rem;
+}
+
+.upload_dropZone .files .progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background-color: transparent;
+    z-index: 0;
+}
+
+.not-allowed {
+    cursor: not-allowed;
+}
+
+.upload_dropZone .files .progress-bar {
+    background-color: var(--colorPrimaryHalf) !important;
 }

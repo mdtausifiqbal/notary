@@ -29,4 +29,6 @@ to answer any questions you may have, by telephone or in a personal meeting.");
 
 $smarty->assign("readonly", false);
 
+$smarty->assign("files", '[{"name":"business.png","url":"images/business.png","size":4194304,"createdAt":1711732902804,"createdBy":"Client"},{"name":"search.png","url":"images/search.png","size":4104304,"createdAt":1711732984638,"createdBy":"Client"}]');
+
 $smarty->display('forms/content-form-realestate.tpl');

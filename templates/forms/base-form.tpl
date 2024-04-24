@@ -186,4 +186,8 @@
 
         })
     </script>
+
+    {* File Input Handling *}
+    {include file="forms/file-script.tpl"}
+    {* /File Input Handling *}
 {/block}

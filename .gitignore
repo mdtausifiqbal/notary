@@ -4,3 +4,5 @@ composer.phar
 templates_c/
 *test*
 .vscode/
+
+uploads
