@@ -1,5 +1,7 @@
 {* FileItem Class Script *}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuidv4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.33/moment-timezone-with-data.min.js"></script>
 <script>
     class Documents {
         constructor(data) {
@@ -32,9 +34,9 @@
         }
 
         setUploaded(data) {
-            this.createdAt = data?.createdAt;
-            this.createdBy = data?.createdBy;
-            this.url = data?.fileUrl;
+            this.createdAt = data.createdAt;
+            this.createdBy = data.createdBy;
+            this.url = data.fileUrl;
             this.uploaded = true;
             this.updateDom();
         }
@@ -50,18 +52,21 @@
         }
 
         getTimestamp() {
-            // Convert timestamp to YYYY-MM-DD HH:MM:SS format
-            let date = new Date(this.createdAt);
+            // Guess the user's timezone
+            let currentTimezone = moment.tz.guess();
 
-            let datePart = date.toLocaleDateString("en-GB", { year: 'numeric', month: '2-digit', day: '2-digit' });
-            let timePart = date.toLocaleTimeString("en-GB", { hour12: true });
+            // Convert timestamp to YYYY-MM-DD HH:MM:SS format
+            let date = moment.utc(this.createdAt).tz(currentTimezone);
+
+            let datePart = date.format('YYYY-MM-DD');
+            let timePart = date.format('hh:mm:ss A');
 
             return datePart + " " + timePart;
         }
 
         upload() {
             let formData = new FormData();
-            formData.append('files[]', this.file);
+            formData.append('files', this.file);
             let thisObj = this;
             $.ajax({
                 url: 'upload.php',
@@ -83,7 +88,7 @@
                 },
                 success: function(data) {
                     console.log(data);
-                    thisObj.setUploaded(data[0]);
+                    thisObj.setUploaded(data);
                 }
             });
         }
@@ -93,15 +98,17 @@
         }
 
         {literal}
-        getDom() {
-            let fileSizeInKb = this.getSizeInKB();
-            let fileSizeInMb = this.getSizeInMB();
+            getDom() {
+                let fileSizeInKb = this.getSizeInKB();
+                let fileSizeInMb = this.getSizeInMB();
+                let timestamp = this.getTimestamp();
+                let createdBy = this.createdBy;
 
-            let fileSizeInfo = fileSizeInMb < 1 ? fileSizeInKb + " KB" : fileSizeInMb +
-                " MB";
+                let fileSizeInfo = fileSizeInMb < 1 ? fileSizeInKb + " KB" : fileSizeInMb +
+                    " MB";
 
-            let dom = $(
-                `
+                let dom = $(
+                    `
 <div class="item" id="${this.id}">
 <div class="progress ${this.uploaded ? 'hidden' : ''}">
 <div id="progress-bar-${this.id}" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
@@ -112,16 +119,16 @@
                     </div>
                     <div class="file-info">
 <span class="mb-0"><a href="${this.url ? this.url : '#'}" target="_blank" class="text-link">${this.name}</a></span>
-<span class="mb-0">${fileSizeInfo} ${this.uploaded ? `| ${this.getTimestamp()} | ${this.createdBy}` : ''} </span>
+<span class="mb-0">${fileSizeInfo} ${this.uploaded ? `| ${timestamp} | ${createdBy}` : ''} </span>
                     </div>
 <button class="btn-remove ${this.uploaded ? 'hidden' : ''}" type="button">&times;</button>
                 </div>
             </div>
             `
-            )
+                )
 
-            return dom;
-        }
+                return dom;
+            }
         {/literal}
 
     }
