@@ -10,6 +10,8 @@
             this.id = uuidv4(); // Generate a unique id for this Documents item
             this.name = data?.name;
             this.size = data?.size;
+            this.error = null;
+            this.jqXHR = null;
 
             if (data instanceof File) {
                 this.file = data;
@@ -41,6 +43,14 @@
             this.updateDom();
         }
 
+        setUploadError(error) {
+            this.uploaded = true;
+            this.error = error;
+            console.log("Error: ", error);
+            alert("An error occurred while uploading the file. Please try again.")
+            this.updateDom();
+        }
+
         getSizeInMB() {
             let fileSizeInMb = (this.size / 1024 / 1024).toFixed(2);
             return fileSizeInMb;
@@ -68,7 +78,7 @@
             let formData = new FormData();
             formData.append('files', this.file);
             let thisObj = this;
-            $.ajax({
+            let jqXHR = $.ajax({
                 url: 'upload.php',
                 type: 'POST',
                 data: formData,
@@ -89,8 +99,15 @@
                 success: function(data) {
                     console.log(data);
                     thisObj.setUploaded(data);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    if (textStatus === 'abort') return;
+                    let response = JSON.parse(jqXHR.responseText);
+                    let errorMessage = response?.error ? response.error : errorThrown;
+                    thisObj.setUploadError(errorMessage);
                 }
             });
+            this.jqXHR = jqXHR;
         }
 
         updateDom() {
@@ -99,6 +116,7 @@
 
         {literal}
             getDom() {
+                let thisObj = this;
                 let fileSizeInKb = this.getSizeInKB();
                 let fileSizeInMb = this.getSizeInMB();
                 let timestamp = this.getTimestamp();
@@ -112,20 +130,27 @@
 <div class="item" id="${this.id}">
 <div class="progress ${this.uploaded ? 'hidden' : ''}">
 <div id="progress-bar-${this.id}" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <div class="file">
-                    <div class="file-icon">
-                        <svg width="48" height="48" version="1.1" viewBox="0 0 100 100" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M82.4,25.6l-20-20C62,5.2,61.5,5,61,5H23c-3.3,0-6,2.7-6,6v78c0,3.3,2.7,6,6,6h54c3.3,0,6-2.7,6-6V27  C83,26.5,82.8,26,82.4,25.6z M63,11.8L76.2,25H65c-1.1,0-2-0.9-2-2V11.8z M77,91H23c-1.1,0-2-0.9-2-2V11c0-1.1,0.9-2,2-2h36v14  c0,3.3,2.7,6,6,6h14v60C79,90.1,78.1,91,77,91z"></path></svg>
-                    </div>
-                    <div class="file-info">
+                        </div>
+                        <div class="file">
+                            <div class="file-icon">
+                                <svg width="48" height="48" version="1.1" viewBox="0 0 100 100" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M82.4,25.6l-20-20C62,5.2,61.5,5,61,5H23c-3.3,0-6,2.7-6,6v78c0,3.3,2.7,6,6,6h54c3.3,0,6-2.7,6-6V27  C83,26.5,82.8,26,82.4,25.6z M63,11.8L76.2,25H65c-1.1,0-2-0.9-2-2V11.8z M77,91H23c-1.1,0-2-0.9-2-2V11c0-1.1,0.9-2,2-2h36v14  c0,3.3,2.7,6,6,6h14v60C79,90.1,78.1,91,77,91z"></path></svg>
+                            </div>
+                            <div class="file-info">
 <span class="mb-0"><a href="${this.url ? this.url : '#'}" target="_blank" class="text-link">${this.name}</a></span>
 <span class="mb-0">${fileSizeInfo} ${this.uploaded ? `| ${timestamp} | ${createdBy}` : ''} </span>
+<span class="mb-0 text-danger ${this.error ? '' : 'hidden'}">${this.error}</span>
+                            </div>
+<button class="btn-remove cancel_upload ${this.uploaded ? 'hidden' : ''}" type="button">&times;</button>
+                        </div>
                     </div>
-<button class="btn-remove ${this.uploaded ? 'hidden' : ''}" type="button">&times;</button>
-                </div>
-            </div>
             `
-                )
+                );
+
+                dom.find('.cancel_upload').on('click', function(e) {
+                    e.preventDefault();
+                    thisObj.jqXHR.abort();
+                    dom.remove();
+                });
 
                 return dom;
             }
